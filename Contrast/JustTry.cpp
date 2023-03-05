@@ -1,26 +1,13 @@
 #include <iostream>
 #include <string.h>
 #include <algorithm>
+#include <cstring>
 #include <vector>
 #include <map>
 
 using namespace std;
 
-int strToInt(string str) {
-    int num = 0;
-    int sign = 1;
-    int i = 0;
-    if (str[0] == '-') {
-        sign = -1;
-        i++;
-    }
-    for (; i < str.length(); i++) {
-        num = num * 10 + (str[i] - '0');
-    }
-    return num * sign;
-}
-
-int convertToNumber(string word) {
+string convertToNumber(string word) {
 
     map<char, string> letter_to_number = {
         {'I', "1"}, {'J', "1"},
@@ -52,21 +39,9 @@ int convertToNumber(string word) {
             
         }
         
-        count++;
-
-        if(count > 10) {
-            return -1;
-
-        }
     }
 
-    if (phone_number != "") {
-
-        hello_int = strToInt(phone_number);
-        
-    }
-
-    return hello_int;
+    return phone_number;
 }
 
 int main() {
@@ -77,8 +52,6 @@ int main() {
     string ans;
     cin >> ans;
 
-    result = strToInt(ans);
-
     int n;
     cin >> n;
 
@@ -86,9 +59,9 @@ int main() {
         string word;
         cin >> word;
 
-        int dataint = convertToNumber(word);
+        string dataint = convertToNumber(word);
 
-        if (dataint == result) {
+        if (dataint == ans) {
             checker++;
             s1.push_back(word);
         }

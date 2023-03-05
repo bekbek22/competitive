@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int convertToNumber(string word) {
+string convertToNumber(string word) {
 
     map<char, string> letter_to_number = {
         {'I', "1"}, {'J', "1"},
@@ -23,17 +23,15 @@ int convertToNumber(string word) {
     };
 
     string phone_number = "";
-    int hello_int = 0;
+    long hello_int = 0;
     int count = 0;
 
     for (char c : word) {
         // Convert to uppercase and look up the number for the character
         char upper_c = toupper(c);
+
         if (letter_to_number.count(upper_c)) {
             phone_number += letter_to_number[upper_c];
-        }
-        else if (c == ' ') {
-            phone_number += " ";
         }
         else {
             // Character is not a letter or a space
@@ -41,22 +39,11 @@ int convertToNumber(string word) {
             
         }
         
-        count++;
-
-        if(count > 10) {
-            return -1;
-
-        }
     }
 
-    if (phone_number != "") {
-
-        hello_int = stoi(phone_number);
-        
-    }
-    
-    return hello_int;
+    return phone_number;
 }
+
 
 int main(int argc, char* argv[]) {
     registerTestlibCmd(argc, argv);
@@ -70,9 +57,9 @@ int main(int argc, char* argv[]) {
 
     for (int i = 0; i < n; i++) {
         string word = inf.readWord();
-        int dataint = convertToNumber(word);
+        string dataint = convertToNumber(word);
 
-        if (dataint == stoi(ans)) {
+        if (dataint == ans) {
             checker++;
             s1.push_back(word);
             str = word;
