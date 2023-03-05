@@ -8,6 +8,7 @@
 using namespace std;
 
 int convertToNumber(string word) {
+
     map<char, string> letter_to_number = {
         {'I', "1"}, {'J', "1"},
         {'A', "2"}, {'B', "2"}, {'C', "2"},
@@ -23,6 +24,7 @@ int convertToNumber(string word) {
 
     string phone_number = "";
     int hello_int = 0;
+    int count = 0;
 
     for (char c : word) {
         // Convert to uppercase and look up the number for the character
@@ -35,21 +37,31 @@ int convertToNumber(string word) {
         }
         else {
             // Character is not a letter or a space
-            quitf(_wa, "Invalid character '%c'", c);
+            cout << "Error!" << endl;
+            
+        }
+        
+        count++;
+
+        if(count > 10) {
+            return -1;
+
         }
     }
 
     if (phone_number != "") {
-        hello_int = stoi(phone_number);
-    }
 
+        hello_int = stoi(phone_number);
+        
+    }
+    
     return hello_int;
 }
 
 int main(int argc, char* argv[]) {
     registerTestlibCmd(argc, argv);
     
-    int ans = inf.readInt();
+    string ans = inf.readToken("[0-9]{1,10}", "x");
     int n = inf.readInt();
 
     vector<string> s1;
@@ -60,7 +72,7 @@ int main(int argc, char* argv[]) {
         string word = inf.readWord();
         int dataint = convertToNumber(word);
 
-        if (dataint == ans) {
+        if (dataint == stoi(ans)) {
             checker++;
             s1.push_back(word);
             str = word;
@@ -77,14 +89,14 @@ int main(int argc, char* argv[]) {
             }
         }
         if (!ouf.seekEof()) {
-            quitf(_wa, "Expected EOF, but found extra words");
+            quitf(_wa, "No");
         }
     } else {
         if (!ouf.seekEof()) {
-            quitf(_wa, "Expected EOF, but found extra words");
+            quitf(_wa, "No");
         }
-        quitf(_wa, "No matching words found");
+        quitf(_wa, "No");
     }
 
-    quitf(_ok, "%d matching words found", checker);
+    quitf(_ok, "%d found", checker);
 }
