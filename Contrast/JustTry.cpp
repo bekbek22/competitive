@@ -6,6 +6,20 @@
 
 using namespace std;
 
+int strToInt(string str) {
+    int num = 0;
+    int sign = 1;
+    int i = 0;
+    if (str[0] == '-') {
+        sign = -1;
+        i++;
+    }
+    for (; i < str.length(); i++) {
+        num = num * 10 + (str[i] - '0');
+    }
+    return num * sign;
+}
+
 int convertToNumber(string word) {
 
     map<char, string> letter_to_number = {
@@ -22,17 +36,15 @@ int convertToNumber(string word) {
     };
 
     string phone_number = "";
-    int hello_int = 0;
+    long hello_int = 0;
     int count = 0;
 
     for (char c : word) {
         // Convert to uppercase and look up the number for the character
         char upper_c = toupper(c);
+
         if (letter_to_number.count(upper_c)) {
             phone_number += letter_to_number[upper_c];
-        }
-        else if (c == ' ') {
-            phone_number += " ";
         }
         else {
             // Character is not a letter or a space
@@ -50,9 +62,10 @@ int convertToNumber(string word) {
 
     if (phone_number != "") {
 
-        hello_int = stoi(phone_number);
+        hello_int = strToInt(phone_number);
         
     }
+
     return hello_int;
 }
 
@@ -60,9 +73,11 @@ int main() {
     
     vector<string> s1;
     string str;
-    int checker = 0;
+    int checker = 0, result = 0;
     string ans;
     cin >> ans;
+
+    result = strToInt(ans);
 
     int n;
     cin >> n;
@@ -73,7 +88,7 @@ int main() {
 
         int dataint = convertToNumber(word);
 
-        if (dataint == stoi(ans)) {
+        if (dataint == result) {
             checker++;
             s1.push_back(word);
         }
