@@ -81,7 +81,7 @@ int main() {
             cout << s1[i] << endl;
         }
     } else {
-        cout << "No Word.";
+        cout << "No matching words found";
     }
 
     return 0;
