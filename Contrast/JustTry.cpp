@@ -1,11 +1,13 @@
 #include <iostream>
-#include <string>
+#include <string.h>
+#include <algorithm>
+#include <vector>
 #include <map>
 
 using namespace std;
 
-int main() {
-    // Mapping from letters to numbers
+int convertToNumber(string word) {
+
     map<char, string> letter_to_number = {
         {'I', "1"}, {'J', "1"},
         {'A', "2"}, {'B', "2"}, {'C', "2"},
@@ -19,6 +21,41 @@ int main() {
         {'O', "0"}, {'Q', "0"}, {'Z', "0"}
     };
 
+    string phone_number = "";
+    int hello_int = 0;
+
+    for (char c : word) {
+        // Convert to uppercase and look up the number for the character
+        char upper_c = toupper(c);
+        if (letter_to_number.count(upper_c)) {
+            phone_number += letter_to_number[upper_c];
+        }
+        else if (c == ' ') {
+            phone_number += " ";
+        }
+        else {
+            // Character is not a letter or a space
+            cout << "Error!" << endl;
+            
+        }
+    }
+
+    if (phone_number != "") {
+        
+        hello_int = stoi(phone_number);
+        
+    }
+
+    return hello_int;
+}
+
+int main() {
+    
+    vector<string> s1;
+    string str;
+    int ans, checker = 0;
+    cin >> ans;
+
     int n;
     cin >> n;
 
@@ -26,27 +63,22 @@ int main() {
         string word;
         cin >> word;
 
-        string phone_number = "";
-        for (char c : word) {
-            // Convert to uppercase and look up the number for the character
-            char upper_c = toupper(c);
-            if (letter_to_number.count(upper_c)) {
-                phone_number += letter_to_number[upper_c];
-            }
-            else if (c == ' ') {
-                phone_number += " ";
-            }
-            else {
-                // Character is not a letter or a space
-                cout << "Error!" << endl;
-                break;
-            }
+        int dataint = convertToNumber(word);
+
+        if (dataint == ans) {
+            checker = 1;
+            s1.push_back(word);
+            str = word;
         }
 
-        if (phone_number != "") {
-            cout << phone_number << endl;
-            
-        }
+    }
+
+    std::sort(s1.begin(), s1.end());
+    
+    if (checker > 0) {
+        cout << s1.front();
+    } else {
+        cout << "No Word.";
     }
 
     return 0;
