@@ -53,7 +53,8 @@ int main() {
     
     vector<string> s1;
     string str;
-    int ans, checker = 0;
+    int checker = 0;
+    string ans;
     cin >> ans;
 
     int n;
@@ -65,8 +66,8 @@ int main() {
 
         int dataint = convertToNumber(word);
 
-        if (dataint == ans) {
-            checker = 1;
+        if (dataint == stoi(ans)) {
+            checker++;
             s1.push_back(word);
             str = word;
         }
@@ -76,7 +77,9 @@ int main() {
     std::sort(s1.begin(), s1.end());
     
     if (checker > 0) {
-        cout << s1.front();
+        for (int i = 0; i < checker; i++) {
+            cout << s1[i] << endl;
+        }
     } else {
         cout << "No Word.";
     }
@@ -110,7 +113,7 @@ int main() {
 // queue เหลือเราก็ cout << "No Solution."
 
 // testcase
-// 7325189087
+// 7325189
 // 5
 // it 18
 // your 9087
