@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
     inf.readEoln();
 
     // Read the second line containing a single integer N satisfying 1 <= N <= 10
-    int n = inf.readInt(1, 10, "n");
+    int n = inf.readInt(1, 50000, "n");
     inf.readEoln();
 
     for (int i = 0; i < n; i++) {

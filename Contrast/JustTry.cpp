@@ -70,7 +70,7 @@ int main() {
 
     std::sort(s1.begin(), s1.end());
     
-    if (checker > 0) {
+    if (checker > 0) {  
         for (int i = 0; i < checker; i++) {
             cout << s1[i] << endl;
         }
