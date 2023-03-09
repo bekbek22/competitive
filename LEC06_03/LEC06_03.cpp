@@ -1,52 +1,26 @@
-#include <iostream>
-#include <string>
-#include <algorithm>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    string s,res,word;
+    set<string> str;
 
-int main() {
-    // define input string
-    string input = "";
-    string line = "";
+    while (getline(cin, s)){
+        if (s.size() <= 200)
+            res += s;
+    }
+    
+    replace_if(res.begin() , res.end() ,[] (const char& c) { return !isalpha(c) ;},' ');
+    transform(res.begin(), res.end(), res.begin(), ::tolower);
 
-    // read in lines of text until EOF is reached
-    // while (getline(cin, line)) {
-    //     input += line + "\n";
-    // }
-    getline(cin, input);
-
-    // convert input string to lowercase
-    transform(input.begin(), input.end(), input.begin(), ::tolower);
-
-    // define vector to store words
-    vector<string> words;
-
-    // split input string into words
-    string word = "";
-    for (char c : input) {
-        if (c == ' ' || c == '.' || c == '"' || c == ':' || c == '\n') {
-            if (word != "") {
-                words.push_back(word);
-                word = "";
-            }
-        } else {
-            word += c;
-        }
+    stringstream iss(res);
+    while (iss >> word){
+        str.insert(word);
     }
 
-    // handle last word
-    if (word != "") {
-        words.push_back(word);
-    }
-
-    // sort and remove duplicates from words vector
-    sort(words.begin(), words.end());
-    words.erase(unique(words.begin(), words.end()), words.end());
-
-    // print sorted and unique words
-    for (string w : words) {
-        cout << w << endl;
+    for (auto x : str) {
+        cout << x << "\n";
     }
 
     return 0;
