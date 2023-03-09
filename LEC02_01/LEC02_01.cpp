@@ -15,6 +15,7 @@ int main() {
         m = 0;
         n = 0;
     }
+
     while (x != 1 && x > 0) {
 
         if (x % 2 == 0) {
