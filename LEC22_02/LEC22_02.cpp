@@ -1,33 +1,35 @@
 #include <iostream>
-
 using namespace std;
-
-long long dp[30];
-
-long long TrillV2(long long n) {
-
-    dp[0] = 1;
-    dp[1] = 0;
-    dp[2] = 3;
-    for (int i = 4; i <= 30; i+=2) {
-        dp[i] = 4*dp[i-2] - dp[i-4];
+ 
+long countWays(long n)
+{
+    long A[n + 1], B[n + 1];
+    A[0] = 1;
+    A[1] = 0;
+    B[0] = 0;
+    B[1] = 1;
+    for (long i = 2; i <= n; i++) {
+        A[i] = A[i - 2] + 2 * B[i - 1];
+        B[i] = A[i - 1] + B[i - 2];
     }
-    return dp[n];
+ 
+    return A[n];
 }
+ 
 
-int main () {
-    long long n, m;
-    // scanf("%d %d", &n, &m);
-    cin >> n;
-    long long result[n];
-
-    for (int i = 0; i < n; i++) {
-        cin >> m;
-        result[i] = TrillV2(m);
+int main()
+{
+    long t,n;
+    cin >> t;
+    long ar[t];
+    for (int i=0;i<t;i++){
+        
+        cin >> ar[i];
+        
     }
 
-    for (int i = 0; i < n; i++) {
-        cout << result[i] << endl;
+    for (auto a:ar){
+        cout << countWays(a) << endl;
     }
-    
+    return 0;
 }
