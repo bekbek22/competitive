@@ -1,51 +1,107 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef pair<int, int> ii;
-typedef vector<int> vi;
-typedef vector<ii> vii;
-vector<vii> AdjList;
-vi taken; //global boolean flag to avoid cycle
-priority_queue<ii> pq; //priority queue to help choose shorter edges
-void process(int vtx) {
-    taken[vtx] = 1;
-    for (int j = 0; j < AdjList[vtx].size(); j++) {
-        ii v = AdjList[vtx][j];
-        if (!taken[v.first]) pq.push(ii(-v.second, -v.first));
+
+struct Edge
+{
+    int u, v, w;
+};
+
+bool compare(const Edge &a, const Edge &b)
+{
+    return a.w < b.w;
+}
+
+int find(int u, vector<int> &parent)
+{
+    if (u != parent[u])
+    {
+        parent[u] = find(parent[u], parent);
+    }
+    return parent[u];
+}
+
+void union_set(int u, int v, vector<int> &parent, vector<int> &rank)
+{
+    int root_u = find(u, parent);
+    int root_v = find(v, parent);
+    if (root_u == root_v)
+        return;
+    if (rank[root_u] > rank[root_v])
+    {
+        parent[root_v] = root_u;
+    }
+    else
+    {
+        parent[root_u] = root_v;
+        if (rank[root_u] == rank[root_v])
+        {
+            rank[root_v]++;
+        }
     }
 }
-// sort by (inc) weight then by (inc) id by using -ve sign to reverse order
 
-using namespace std;
-
-int main() {
-    int V, E, u, v, w;
-    scanf("%d %d", &V, &E);
-    AdjList.assign(V, vii());
-    vector< pair<int, ii> > EdgeList;
-    //format: weight, two vertices of the edge
-    for (int i = 0; i < E; i++) {
-        scanf("%d %d %d", &u, &v, &w);
-        // read the triple: (a, b, w)
-        EdgeList.push_back(make_pair(w, ii(u, v)));
-        // but store it as: (w, a, b)
-        AdjList[u].push_back(ii(v, w));
-        AdjList[v].push_back(ii(u, w));
-
-    int mst_cost = 0;
-    // inside int main() --- assume the graph has been stored in AdjList
-    taken.assign(V, 0);
-    process(0); //take vertex 0 and process all edges incident to vertex 0
-    mst_cost = 0;
-    while (!pq.empty()) { //repeat until V vertices (E = V-1 edges) are taken
-        ii front = pq.top();
-        pq.pop();
-        u = -front.second;
-        w = -front.first; // negate the id and weight again
-        if (!taken[u]){ // we have not connect this vertex yet
-            mst_cost += w;
-            process(u);
-        } // take u and process all edges incident to u
-    } // each edge is in pq only once!
-    printf("MST cost = %d (Prim's)\n", mst_cost);
+int kruskal(vector<Edge> &edges, int n)
+{
+    sort(edges.begin(), edges.end(), compare);
+    vector<int> parent(n + 1);
+    vector<int> rank(n + 1, 0);
+    for (int i = 1; i <= n; i++)
+    {
+        parent[i] = i;
     }
+    int cost = 0;
+    for (const auto &edge : edges)
+    {
+        if (find(edge.u, parent) != find(edge.v, parent))
+        {
+            cost += edge.w;
+            union_set(edge.u, edge.v, parent, rank);
+        }
+    }
+    return cost;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+
+    vector<Edge> initial_edges(n - 1);
+    for (int i = 0; i < n - 1; i++)
+    {
+        cin >> initial_edges[i].u >> initial_edges[i].v >> initial_edges[i].w;
+    }
+
+    int k;
+    cin >> k;
+
+    vector<Edge> new_edges(k);
+    for (int i = 0; i < k; i++)
+    {
+        cin >> new_edges[i].u >> new_edges[i].v >> new_edges[i].w;
+    }
+
+    int m;
+    cin >> m;
+
+    vector<Edge> all_edges(m + k);
+    for (int i = 0; i < m; i++)
+    {
+        cin >> all_edges[i].u >> all_edges[i].v >> all_edges[i].w;
+    }
+
+    for (int i = 0; i < k; i++)
+    {
+        all_edges[m + i].u = new_edges[i].u;
+        all_edges[m + i].v = new_edges[i].v;
+        all_edges[m + i].w = new_edges[i].w;
+    }
+
+    int initial_cost = kruskal(initial_edges, n);
+    int new_cost = kruskal(all_edges, n);
+
+    cout << initial_cost << '\n';
+    cout << new_cost << '\n';
+
+    return 0;
 }

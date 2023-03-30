@@ -3,45 +3,27 @@ using namespace std;
 
 int dr[] = {1,1,0,-1,-1,-1, 0, 1};
 int dc[] = {0,1,1, 1, 0,-1,-1,-1};
-char grid[99][99];
-
-int floodfill(int r, int c, char c1, char c2, int rows ,int cols) {
-    if (r < 0 || r >=  rows || c < 0 || c >= cols) return 0;
+int floodfill(int r, int c, char c1, char c2) {
+    if (r < 0 || r >= R || c < 0 || c >= C) return 0;
+    // ถ้ํานอกขอบเขตก็ไม่ได้ช่องเพิ่ม
     if (grid[r][c] != c1) return 0;
-
-    int ans = 1; 
-    grid[r][c] = c2;
+    // ถ้ําไม่ใช่อักขระเดียวกับ c1 แสดงว่ําคนละสีหรือคนละกลุ่มนั่นเอง ดังนั้นช่องไม่เพิ่ม
+    int ans = 1; // เพิ่ม 1 ให้ค ําตอบเพรําะว่ําช่อง (r, c) อย่ํางน้อยเป็นสี c1 แล้ว
+    grid[r][c] = c2; // เปลี่ยนสีช่อง (r, c) เป็น c2 เพื่อป้องกันระบํายซ้ ํา
     for (int d = 0; d < 8; d++)
-        ans += floodfill(r + dr[d], c + dc[d], c1, c2,rows,cols);
+        ans += floodfill(r + dr[d], c + dc[d], c1, c2);
     return ans;
 }
 
-int main(){
+int main()
+{
     ios::sync_with_stdio(0);
     cin.tie(0);
-    string input,s,intin;
-    int rows = 0, cols = 0;
-    
-    while (getline(cin, s)){
-        if (s[0] == 'L' || s[0] == 'W'){
-            input += s;
-            rows = s.size();
-            input += '\n';
-            cols += 1;
-        } else {
-            intin += s;
-            intin += '\n'
-        }
-        
+    while ()
+    {
+        /* code */
     }
     
-    cout << input;
-    cout << intin;
-    cout << "====================" << endl;
-    cout << rows << " " << cols;
-    
-    intin = intin.replace(' ','');
-    intin = intin.replace(' ','\n');
 
     return 0;
 }
